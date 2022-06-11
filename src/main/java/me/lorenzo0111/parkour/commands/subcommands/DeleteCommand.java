@@ -25,7 +25,6 @@
 package me.lorenzo0111.parkour.commands.subcommands;
 
 import me.lorenzo0111.parkour.commands.SubCommand;
-import me.lorenzo0111.parkour.data.flat.Checkpoint;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
 import me.lorenzo0111.parkour.data.flat.ParkourFile;
@@ -40,7 +39,7 @@ public class DeleteCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"delete {name} [checkpoint]",args);
+        Parkour parkour = fromArgs(sender, "delete {name} [checkpoint]", args);
         if (parkour == null) {
             return;
         }
@@ -58,7 +57,7 @@ public class DeleteCommand extends SubCommand {
                 for (int i = 0; i < parkour.getCheckpoints().size(); i++) {
                     parkour.getCheckpoints().get(i).hologram().setText(MessagesFile.getInstance().getMessage("hologram.checkpoint")
                             .replace("{name}", parkour.getName())
-                            .replace("{count}", String.valueOf(i+1)));
+                            .replace("{count}", String.valueOf(i + 1)));
                 }
 
                 sender.sendMessage(MessagesFile.getInstance().getMessage("commands.delete-checkpoint").replace("{name}", parkour.getName()).replace("{position}", String.valueOf(position)));

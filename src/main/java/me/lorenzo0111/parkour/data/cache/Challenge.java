@@ -76,6 +76,6 @@ public class Challenge {
     public Time toTime() {
         if (end == null) end = Instant.now();
 
-        return new Time(parkour.getName(),player.getUniqueId(), Duration.between(start, end).getSeconds());
+        return new Time(parkour.getName(), player.getUniqueId(), Duration.between(start, end).getSeconds());
     }
 }

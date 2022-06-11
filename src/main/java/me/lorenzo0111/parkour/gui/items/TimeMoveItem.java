@@ -96,7 +96,7 @@ public class TimeMoveItem extends ControlItem<SimplePagedItemsGUI> {
                 for (int i = 0; i < times.size(); i++) {
                     Time time = times.get(i);
 
-                    final int position = i+1;
+                    final int position = i + 1;
                     items.get(i).setTime(time).setRank(position);
                 }
 

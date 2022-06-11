@@ -40,14 +40,14 @@ public class CheckpointCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"checkpoint {name}",args);
+        Parkour parkour = fromArgs(sender, "checkpoint {name}", args);
         if (parkour == null) {
             return;
         }
 
-        parkour.getCheckpoints().add(new Checkpoint(sender.getLocation(),new Hologram(sender.getLocation(), MessagesFile.getInstance().getMessage("hologram.checkpoint")
+        parkour.getCheckpoints().add(new Checkpoint(sender.getLocation(), new Hologram(sender.getLocation(), MessagesFile.getInstance().getMessage("hologram.checkpoint")
                 .replace("{name}", parkour.getName())
-                .replace("{count}", String.valueOf(parkour.getCheckpoints().size()+1)))));
+                .replace("{count}", String.valueOf(parkour.getCheckpoints().size() + 1)))));
         ParkourFile.getInstance().add(parkour);
 
         sender.sendMessage(MessagesFile.getInstance().getMessage("commands.checkpoint").replace("{name}", parkour.getName()));

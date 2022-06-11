@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class MessagesFile extends AbstractFile {
     private static MessagesFile instance;
-    private Map<String,Object> messages;
+    private Map<String, Object> messages;
 
     public MessagesFile(File dataFolder) {
         super(new File(dataFolder, "messages.yml"), true);
@@ -49,7 +49,7 @@ public class MessagesFile extends AbstractFile {
     }
 
     public String getMessage(String path) {
-        return (String) messages.computeIfAbsent(path, key -> ChatColor.translateAlternateColorCodes('&',  this.getConfig().getString(key, "&cCould not find a message with the key: " + key)));
+        return (String) messages.computeIfAbsent(path, key -> ChatColor.translateAlternateColorCodes('&', this.getConfig().getString(key, "&cCould not find a message with the key: " + key)));
     }
 
     @SuppressWarnings("unchecked")

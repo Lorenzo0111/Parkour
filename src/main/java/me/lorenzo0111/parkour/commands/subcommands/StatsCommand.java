@@ -56,7 +56,7 @@ public class StatsCommand extends SubCommand {
 
         final Player finalTarget = target;
 
-        SQLDatabase.getInstance().get(target).whenComplete((stats,ex) -> {
+        SQLDatabase.getInstance().get(target).whenComplete((stats, ex) -> {
             if (ex != null) {
                 sender.sendMessage(MessagesFile.getInstance().getMessage("errors.database"));
                 return;

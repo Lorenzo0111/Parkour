@@ -38,14 +38,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GuiFile extends AbstractFile {
-    private static final Map<String,GuiFile> FILES = new HashMap<>();
+    private static final Map<String, GuiFile> FILES = new HashMap<>();
     private static final File GUIS = new File(ParkourPlugin.getInstance().getDataFolder(), "guis");
-    protected final Map<String,String> placeholders = new HashMap<>();
-    protected final Map<Character,String> ingredients = new HashMap<>();
+    protected final Map<String, String> placeholders = new HashMap<>();
+    protected final Map<Character, GuiItem> ingredients = new HashMap<>();
     private boolean created = false;
     protected List<GuiItem> items = new ArrayList<>();
 
@@ -80,10 +83,10 @@ public class GuiFile extends AbstractFile {
                 .setItems(items.stream().map(GuiItem::toItem).collect(Collectors.toList()));
 
         for (char c : ingredients.keySet()) {
-            builder.addIngredient(c, getItem(ingredients.get(c)));
+            builder.addIngredient(c, ingredients.get(c).toItem());
         }
 
-        return new SimpleWindow(player, replacePlaceholders(this.getConfig().getString("title", "&cCan't find title")),builder.build());
+        return new SimpleWindow(player, replacePlaceholders(this.getConfig().getString("title", "&cCan't find title")), builder.build());
     }
 
     public GuiFile setItems(List<GuiItem> items) {
@@ -92,12 +95,17 @@ public class GuiFile extends AbstractFile {
     }
 
     public GuiFile bind(char key, String ingredient) {
-        ingredients.put(key,ingredient);
+        ingredients.put(key, new GuiItem(this, ingredient));
+        return this;
+    }
+
+    public GuiFile bind(char key, String ingredient, Map<String, String> placeholders) {
+        ingredients.put(key, new GuiItem(this, ingredient).registerPlaceholders(placeholders));
         return this;
     }
 
     protected String replacePlaceholders(String string) {
-        for (Map.Entry<String,String> entry : placeholders.entrySet()) {
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
             string = string.replace(entry.getKey(), entry.getValue());
         }
         return ChatColor.translateAlternateColorCodes('&', string);

@@ -26,7 +26,6 @@ package me.lorenzo0111.parkour.gui;
 
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.gui.impl.SimpleGUI;
 import de.studiocode.invui.gui.impl.SimplePagedItemsGUI;
 import de.studiocode.invui.gui.structure.Markers;
 import de.studiocode.invui.item.Item;
@@ -72,10 +71,10 @@ public class TopGUI extends GuiFile {
                 .setItems(timeItems);
 
         for (char c : ingredients.keySet()) {
-            builder.addIngredient(c, getItem(ingredients.get(c)));
+            builder.addIngredient(c, ingredients.get(c).toItem());
         }
 
-        return new SimpleWindow(player, replacePlaceholders(this.getConfig().getString("title", "&cCan't find title")),builder.build());
+        return new SimpleWindow(player, replacePlaceholders(this.getConfig().getString("title", "&cCan't find title")), builder.build());
     }
 
     public Parkour getParkour() {

@@ -27,6 +27,8 @@ package me.lorenzo0111.parkour.listeners;
 import me.lorenzo0111.parkour.data.cache.Challenge;
 import me.lorenzo0111.parkour.data.cache.ChallengeHandler;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
+import me.lorenzo0111.parkour.data.flat.Parkour;
+import me.lorenzo0111.parkour.data.flat.ParkourFile;
 import me.lorenzo0111.parkour.data.sql.SQLDatabase;
 import me.lorenzo0111.parkour.data.sql.Time;
 import me.lorenzo0111.parkour.utils.MovementHandler;
@@ -36,6 +38,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
+import java.util.Optional;
+
 import static org.bukkit.event.EventPriority.HIGHEST;
 
 public class MovementListener implements Listener {
@@ -44,13 +48,28 @@ public class MovementListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = HIGHEST)
     public void onMove(PlayerMoveEvent event) {
         if (event.getTo() == null) return;
-        if (!ChallengeHandler.getInstance().inChallenge(event.getPlayer())) return;
+        if (!ChallengeHandler.getInstance().inChallenge(event.getPlayer()) && !ChallengeHandler.getInstance().isDelayed(event.getPlayer())) {
+            Optional<Parkour> first = ParkourFile.getInstance()
+                    .getParkours()
+                    .values()
+                    .stream()
+                    .filter(p -> MovementHandler.checkDistance(event.getTo(), p.getStart()))
+                    .findFirst();
+
+            if (first.isPresent()) {
+                Challenge challenge = new Challenge(event.getPlayer(), first.get());
+                ChallengeHandler.getInstance().start(event.getPlayer(), challenge);
+                event.getPlayer().sendMessage(MessagesFile.getInstance().getMessage("challenge.start").replace("{name}", first.get().getName()));
+            }
+
+            return;
+        }
 
         Challenge challenge = ChallengeHandler.getInstance().get(event.getPlayer());
         if (challenge == null) return;
 
         if (challenge.getParkour().getCheckpoints().size() <= challenge.getCurrentCheckpoint()) {
-            if (MovementHandler.checkDistance(event.getTo(),challenge.getParkour().getEnd())) {
+            if (MovementHandler.checkDistance(event.getTo(), challenge.getParkour().getEnd())) {
                 challenge = ChallengeHandler.getInstance().end(event.getPlayer());
 
                 Time time = challenge.toTime();

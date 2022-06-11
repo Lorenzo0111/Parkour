@@ -48,7 +48,7 @@ public abstract class AbstractFile implements Reloadable {
     }
 
     public AbstractFile(File file, boolean extract) {
-        this(file,extract ? file.getName() : null);
+        this(file, extract ? file.getName() : null);
     }
 
     public AbstractFile(File file, String extractName) {

@@ -35,7 +35,9 @@ import java.util.List;
 public abstract class SubCommand {
 
     public abstract void perform(Player sender, String[] args);
+
     public abstract @Nullable String permission();
+
     public List<String> complete() {
         return null;
     }

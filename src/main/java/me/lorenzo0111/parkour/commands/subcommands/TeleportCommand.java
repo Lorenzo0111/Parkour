@@ -25,8 +25,6 @@
 package me.lorenzo0111.parkour.commands.subcommands;
 
 import me.lorenzo0111.parkour.commands.SubCommand;
-import me.lorenzo0111.parkour.data.cache.Challenge;
-import me.lorenzo0111.parkour.data.cache.ChallengeHandler;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
 import me.lorenzo0111.parkour.data.flat.ParkourFile;
@@ -40,7 +38,7 @@ public class TeleportCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"teleport {name} [checkpoint]",args);
+        Parkour parkour = fromArgs(sender, "teleport {name} [checkpoint]", args);
         if (parkour == null) {
             return;
         }
@@ -61,9 +59,6 @@ public class TeleportCommand extends SubCommand {
             }
             return;
         }
-
-        Challenge challenge = new Challenge(sender,parkour);
-        ChallengeHandler.getInstance().start(sender,challenge);
 
         sender.teleport(parkour.getStart());
         sender.sendMessage(MessagesFile.getInstance().getMessage("commands.teleport").replace("{name}", parkour.getName()));

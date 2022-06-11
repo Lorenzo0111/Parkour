@@ -35,31 +35,33 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class InfoCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"info {name}",args);
+        Parkour parkour = fromArgs(sender, "info {name}", args);
         if (parkour == null) return;
 
         GuiFile file = GuiFile.get("info")
                 .registerPlaceholder("name", parkour.getName())
-                .bind('S', "start")
-                .bind('E', "end");
+                .bind('S', "start", Map.of("x", String.valueOf(parkour.getStart().getBlockX()), "y", String.valueOf(parkour.getStart().getBlockY()), "z", String.valueOf(parkour.getStart().getBlockZ())))
+                .bind('E', "end", Map.of("x", String.valueOf(parkour.getEnd().getBlockX()), "y", String.valueOf(parkour.getEnd().getBlockY()), "z", String.valueOf(parkour.getEnd().getBlockZ())));
 
         List<GuiItem> items = new ArrayList<>();
 
         for (int i = 0; i < parkour.getCheckpoints().size(); i++) {
             Checkpoint checkpoint = parkour.getCheckpoints().get(i);
 
-            String name = String.valueOf(i+1);
+            String name = String.valueOf(i + 1);
 
-            items.add(new GuiItem(file,"checkpoint")
+            items.add(new GuiItem(file, "checkpoint")
                     .registerPlaceholder("name", name)
                     .registerPlaceholder("x", String.valueOf(checkpoint.location().getBlockX()))
                     .registerPlaceholder("y", String.valueOf(checkpoint.location().getBlockY()))
                     .registerPlaceholder("z", String.valueOf(checkpoint.location().getBlockZ()))
+                    .onClick((c) -> sender.teleport(checkpoint.location()))
             );
         }
 

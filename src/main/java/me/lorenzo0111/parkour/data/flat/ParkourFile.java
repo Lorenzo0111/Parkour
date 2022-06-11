@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class ParkourFile extends AbstractFile {
     private static ParkourFile instance;
-    private Map<String,Parkour> parkours;
+    private Map<String, Parkour> parkours;
 
     public ParkourFile(File dataFolder) throws IOException {
         super(new File(dataFolder, "parkour.yml"));

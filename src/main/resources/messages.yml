@@ -19,6 +19,7 @@ commands:
   reload: "&7Plugin reloaded successfully"
 
 game:
+  start: "&aChallenge for {name} started."
   fly: "&cYou can't fly in parkour. Challenge failed."
   teleport: "&cYou can't teleport in parkour. Challenge failed."
   checkpoint: "&aCheckpoint reached: {current}/{total}"

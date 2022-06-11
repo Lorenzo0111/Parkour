@@ -24,15 +24,20 @@
 
 package me.lorenzo0111.parkour.data.cache;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChallengeHandler {
     private static ChallengeHandler instance;
-    private final Map<Player,Challenge> challenges = new HashMap<>();
+    private final Map<Player, Challenge> challenges = new HashMap<>();
+    private final List<Player> delay = new ArrayList<>();
 
     public void start(Player player, Challenge challenge) {
         challenges.put(player, challenge);
@@ -42,6 +47,7 @@ public class ChallengeHandler {
         Challenge challenge = challenges.remove(player);
         challenge.setEnd(Instant.now());
         player.teleport(challenge.getParkour().getStart());
+        delay(player);
         return challenge;
     }
 
@@ -51,6 +57,15 @@ public class ChallengeHandler {
 
     public boolean inChallenge(Player player) {
         return challenges.containsKey(player);
+    }
+
+    public void delay(Player player) {
+        delay.add(player);
+        Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> delay.remove(player), 20L);
+    }
+
+    public boolean isDelayed(Player player) {
+        return delay.contains(player);
     }
 
     public static ChallengeHandler getInstance() {

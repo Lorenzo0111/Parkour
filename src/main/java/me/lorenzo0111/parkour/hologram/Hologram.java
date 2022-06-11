@@ -35,7 +35,7 @@ public class Hologram {
     private ArmorStand entity;
 
     public Hologram(Location location, String text) {
-        this.location = location.clone().add(0, ParkourPlugin.getInstance().getConfig().getDouble("hologram.height"),0);
+        this.location = location.clone().add(0, ParkourPlugin.getInstance().getConfig().getDouble("hologram.height"), 0);
         this.text = text;
 
         HologramManager.getInstance().register(this);
@@ -55,6 +55,6 @@ public class Hologram {
     }
 
     public void despawn() {
-        if(entity != null) entity.remove();
+        if (entity != null) entity.remove();
     }
 }

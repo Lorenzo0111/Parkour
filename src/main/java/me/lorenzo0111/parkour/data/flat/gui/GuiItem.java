@@ -24,23 +24,20 @@
 
 package me.lorenzo0111.parkour.data.flat.gui;
 
+import de.studiocode.invui.item.Click;
 import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.builder.SkullBuilder;
 import de.studiocode.invui.item.impl.SimpleItem;
 import me.lorenzo0111.parkour.utils.GuiItemBuilder;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.function.Consumer;
 
 public class GuiItem {
     private final GuiFile file;
-    private final Map<String,String> placeholders = new HashMap<>();
+    private final Map<String, String> placeholders = new HashMap<>();
     private final String key;
+    private Consumer<Click> onClick;
 
     public GuiItem(GuiFile file, String key) {
         this.file = file;
@@ -48,12 +45,12 @@ public class GuiItem {
     }
 
     public GuiItem registerPlaceholder(String placeholder, String value) {
-        placeholders.put("{" + placeholder + "}",value);
+        placeholders.put("{" + placeholder + "}", value);
         return this;
     }
 
     public SimpleItem toItem() {
-        return new SimpleItem(toProvider());
+        return new SimpleItem(toProvider(),onClick);
     }
 
     public ItemProvider toProvider() {
@@ -61,10 +58,24 @@ public class GuiItem {
     }
 
     private String replacePlaceholders(String line) {
-        for (Map.Entry<String,String> entry : placeholders.entrySet()) {
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
             line = line.replace(entry.getKey(), entry.getValue());
         }
 
         return file.replacePlaceholders(line);
+    }
+
+    public GuiItem registerPlaceholders(Map<String, String> placeholders) {
+        Map<String,String> newPlaceholders = new HashMap<>();
+        for (Map.Entry<String,String> entry : placeholders.entrySet()) {
+            newPlaceholders.put("{" + entry.getKey() + "}", entry.getValue());
+        }
+        this.placeholders.putAll(newPlaceholders);
+        return this;
+    }
+
+    public GuiItem onClick(Consumer<Click> onClick) {
+        this.onClick = onClick;
+        return this;
     }
 }

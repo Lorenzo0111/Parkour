@@ -39,13 +39,13 @@ public class TopCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"top {name}",args);
+        Parkour parkour = fromArgs(sender, "top {name}", args);
         if (parkour == null) {
             return;
         }
 
         GuiFile file = new TopGUI(parkour)
-                .registerPlaceholder("name",parkour.getName())
+                .registerPlaceholder("name", parkour.getName())
                 .bind('I', "parkour");
 
         file.toGUI(sender).show();

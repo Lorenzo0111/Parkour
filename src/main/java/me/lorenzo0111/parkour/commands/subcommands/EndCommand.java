@@ -38,7 +38,7 @@ public class EndCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,"end {name} [checkpoint]",args);
+        Parkour parkour = fromArgs(sender, "end {name} [checkpoint]", args);
         if (parkour == null) {
             return;
         }

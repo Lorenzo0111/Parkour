@@ -49,7 +49,7 @@ public class CreateCommand extends SubCommand {
             return;
         }
 
-        Parkour parkour = new Parkour(name,start);
+        Parkour parkour = new Parkour(name, start);
         ParkourFile.getInstance().add(parkour);
 
         sender.sendMessage(MessagesFile.getInstance().getMessage("commands.create").replace("{name}", name));

@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkourCommand implements TabExecutor {
-    private final Map<String,SubCommand> commands = new HashMap<>();
+    private final Map<String, SubCommand> commands = new HashMap<>();
 
     public ParkourCommand() {
         commands.put("reload", new ReloadCommand());
@@ -48,9 +48,9 @@ public class ParkourCommand implements TabExecutor {
         commands.put("end", new EndCommand());
         commands.put("delete", new DeleteCommand());
         commands.put("teleport", new TeleportCommand());
-        commands.put("top",new TopCommand());
-        commands.put("info",new InfoCommand());
-        commands.put("stats",new StatsCommand());
+        commands.put("top", new TopCommand());
+        commands.put("info", new InfoCommand());
+        commands.put("stats", new StatsCommand());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ParkourCommand implements TabExecutor {
                 return subCommand.complete();
             }
 
-           return tab;
+            return tab;
         }
 
         for (String s : commands.keySet()) {

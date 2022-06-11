@@ -53,9 +53,9 @@ public class SQLDatabase implements Reloadable {
     public void save(Time object) {
         this.ensureConnected();
 
-        this.get(object.player(), object.parkour()).whenComplete((previous,error) -> {
+        this.get(object.player(), object.parkour()).whenComplete((previous, error) -> {
             if (previous == null || previous.time() > object.time()) {
-                this.remove(previous).whenComplete((unused,ex) -> {
+                this.remove(previous).whenComplete((unused, ex) -> {
                     this.database.update("INSERT INTO `times`(`parkour`,`uuid`,`time`) VALUES (?,?,?);", (a) -> {
                         a.setString(1, object.parkour());
                         a.setString(2, object.player().toString());
@@ -71,7 +71,7 @@ public class SQLDatabase implements Reloadable {
 
         return this.database.queryForObject("SELECT * FROM times WHERE `id` = ?;",
                 new Object[]{key},
-                (s,n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
+                (s, n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
                 Types.VARCHAR);
     }
 
@@ -80,7 +80,7 @@ public class SQLDatabase implements Reloadable {
 
         return this.database.queryForList("SELECT * FROM times WHERE `uuid` = ?;",
                 new Object[]{player.getUniqueId().toString()},
-                (s,n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
+                (s, n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
                 Types.VARCHAR);
     }
 
@@ -89,7 +89,7 @@ public class SQLDatabase implements Reloadable {
 
         return this.database.queryForList("SELECT * FROM times WHERE `parkour` = ?;",
                 new Object[]{parkour},
-                (s,n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
+                (s, n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
                 Types.VARCHAR);
     }
 
@@ -97,9 +97,9 @@ public class SQLDatabase implements Reloadable {
         this.ensureConnected();
 
         return this.database.queryForObject("SELECT * FROM times WHERE `parkour` = ? AND `uuid` = ?;",
-                new Object[]{parkour,player.toString()},
-                (s,n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
-                Types.VARCHAR,Types.VARCHAR);
+                new Object[]{parkour, player.toString()},
+                (s, n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
+                Types.VARCHAR, Types.VARCHAR);
     }
 
     public CompletableFuture<List<Time>> getTop(String parkour, int limit, int offset) {
@@ -107,7 +107,7 @@ public class SQLDatabase implements Reloadable {
 
         return this.database.queryForList("SELECT * FROM times WHERE `parkour` = ? ORDER BY time LIMIT " + limit + " OFFSET " + offset + ";",
                 new Object[]{parkour},
-                (s,n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
+                (s, n) -> new Time(s.getString("parkour"), UUID.fromString(s.getString("uuid")), s.getLong("time")),
                 Types.VARCHAR);
     }
 
@@ -115,9 +115,9 @@ public class SQLDatabase implements Reloadable {
         this.ensureConnected();
 
         return this.database.update("DELETE FROM times WHERE `uuid` = ? AND `time` = ? AND `parkour` = ?;", (s) -> {
-            s.setString(1,time.player().toString());
-            s.setLong(2,time.time());
-            s.setString(3,time.parkour());
+            s.setString(1, time.player().toString());
+            s.setLong(2, time.time());
+            s.setString(3, time.parkour());
         }, false);
     }
 

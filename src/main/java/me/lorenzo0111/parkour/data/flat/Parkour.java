@@ -41,7 +41,7 @@ public class Parkour {
     public Parkour(String name, Location start) {
         this.name = name;
         this.start = start;
-        this.hologram = new Hologram(start,  MessagesFile.getInstance().getMessage("hologram.start")
+        this.hologram = new Hologram(start, MessagesFile.getInstance().getMessage("hologram.start")
                 .replace("{name}", name));
         hologram.spawn();
     }
@@ -66,7 +66,7 @@ public class Parkour {
         for (int i = 0; i < checkpoints.size(); i++) {
             list.add(new Checkpoint(checkpoints.get(i), new Hologram(checkpoints.get(i), MessagesFile.getInstance().getMessage("hologram.checkpoint")
                     .replace("{name}", name)
-                    .replace("{count}", String.valueOf(i+1)))));
+                    .replace("{count}", String.valueOf(i + 1)))));
         }
 
         this.checkpoints = list;
@@ -79,7 +79,7 @@ public class Parkour {
     public void setEnd(Location end) {
         this.end = end;
 
-        this.endHologram = new Hologram(end,  MessagesFile.getInstance().getMessage("hologram.end")
+        this.endHologram = new Hologram(end, MessagesFile.getInstance().getMessage("hologram.end")
                 .replace("{name}", name));
         endHologram.spawn();
     }

@@ -95,10 +95,10 @@ public final class ParkourPlugin extends JavaPlugin {
 
         command.setExecutor(new ParkourCommand());
 
-        Bukkit.getPluginManager().registerEvents(new MovementListener(),this);
+        Bukkit.getPluginManager().registerEvents(new MovementListener(), this);
 
         Instant end = Instant.now();
-        this.getLogger().info("Parkour v" + this.getDescription().getVersion() + " enabled in " + Duration.between(start,end).getSeconds() + " seconds.");
+        this.getLogger().info("Parkour v" + this.getDescription().getVersion() + " enabled in " + Duration.between(start, end).getSeconds() + " seconds.");
     }
 
     @Override
