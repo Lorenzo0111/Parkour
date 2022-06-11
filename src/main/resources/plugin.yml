@@ -1,0 +1,8 @@
+name: Parkour
+version: '${version}'
+main: me.lorenzo0111.parkour.ParkourPlugin
+api-version: 1.18
+authors: [ Lorenzo0111 ]
+commands:
+  parkour:
+    description: Parkour command

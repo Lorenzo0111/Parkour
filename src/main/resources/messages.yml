@@ -1,0 +1,49 @@
+errors:
+  usage: "&cUsage: {usage}"
+  exists: "&c{name} already exists"
+  not-exists: "&c{name} does not exist"
+  not-checkpoint: "&cThat checkpoint does not exist"
+  no-permission: "&cYou don't have the permission to execute this command"
+  player: "&cThis command can only be used by players"
+  database: "&cA generic database error has occurred. Please contact an administrator"
+
+commands:
+  create: "&aParkour successfully created: {name}"
+  checkpoint: "&aParkour checkpoint created: {name}"
+  end: "&aParkour end created: {name}"
+  delete: "&aParkour successfully deleted: {name}"
+  delete-checkpoint: "&aParkour checkpoint deleted: {name}"
+  teleport: "&aTeleported to parkour start: {name}"
+  teleport-checkpoint: "&aTeleported to parkour checkpoint: {name} ({position})"
+  reload: "&7Plugin reloaded successfully"
+
+game:
+  fly: "&cYou can't fly in parkour. Challenge failed."
+  teleport: "&cYou can't teleport in parkour. Challenge failed."
+  checkpoint: "&aCheckpoint reached: {current}/{total}"
+  end: "&aParkour {name} completed in {time} seconds!"
+
+hologram:
+  start: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+  checkpoint: "&6&l»&e&l» &f{name} &7(&e{count}&7) &e&l«&6&l«"
+
+gui:
+  back: "&e&l«&6&l« &fPrevious Page"
+  next: "&fNext Page &6&l»&e&l»"
+  top:
+    title: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+    user: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+    lore:
+      - "&6&l» &eTime: &f{time} seconds"
+      - "&6&l» &ePosition: &f{rank}"
+  info:
+    title: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+    start:
+      name: "&6&l» &eStart"
+      lore:
+        - "&6&l» &eLocation: &f{x} {y} {z}"
+    checkpoint:
+        name: "&6&l» &eCheckpoint {name}"
+        lore:
+            - "&6&l» &eLocation: &f{x} {y} {z}"
+            - "&6&l» &ePosition: &f{name}"
