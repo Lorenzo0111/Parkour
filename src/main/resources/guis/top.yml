@@ -1,0 +1,29 @@
+title: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+
+structure:
+  - "# # # # I # # # #"
+  - "x x x x x x x x x"
+  - "# # # < # > # # #"
+
+filler:
+  name: "&r"
+  material: "GRAY_STAINED_GLASS_PANE"
+
+back:
+  name: "&e&l«&6&l« &fPrevious Page"
+  material: "STONE_BUTTON"
+
+next:
+  name: "&fNext Page &6&l»&e&l»"
+  material: "STONE_BUTTON"
+
+parkour:
+  material: "LIGHT_WEIGHTED_PRESSURE_PLATE"
+  name: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+
+item:
+  material: "{player}"
+  name: "&6&l»&e&l» &f{name} &e&l«&6&l«"
+  lore:
+    - "&6&l» &eTime: &f{time} seconds"
+    - "&6&l» &ePosition: &f{rank}"

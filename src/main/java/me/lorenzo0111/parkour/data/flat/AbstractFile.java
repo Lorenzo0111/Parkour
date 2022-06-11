@@ -24,8 +24,12 @@ public abstract class AbstractFile implements Reloadable {
     }
 
     public AbstractFile(File file, boolean extract) {
-        if (extract) {
-            ParkourPlugin.getPlugin(ParkourPlugin.class).saveResource(file.getName(), false);
+        this(file,extract ? file.getName() : null);
+    }
+
+    public AbstractFile(File file, String extractName) {
+        if (!file.exists() && extractName != null) {
+            ParkourPlugin.getPlugin(ParkourPlugin.class).saveResource(extractName, false);
         }
 
         this.file = file;

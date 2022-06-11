@@ -16,9 +16,9 @@ public abstract class SubCommand {
         return null;
     }
 
-    public Parkour fromArgs(Player sender, String[] args) {
-        if (args.length != 1) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour top {name}"));
+    public Parkour fromArgs(Player sender, String usage, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour " + usage));
             return null;
         }
 

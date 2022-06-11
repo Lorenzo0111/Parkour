@@ -25,28 +25,28 @@ public class MovementListener implements Listener {
         Challenge challenge = ChallengeHandler.getInstance().get(event.getPlayer());
         if (challenge == null) return;
 
-        if (challenge.getParkour().getCheckpoints().size() <= challenge.getCurrentCheckpoint()) return;
+        if (challenge.getParkour().getCheckpoints().size() <= challenge.getCurrentCheckpoint()) {
+            if (MovementHandler.checkDistance(event.getTo(),challenge.getParkour().getEnd())) {
+                challenge = ChallengeHandler.getInstance().end(event.getPlayer());
+
+                Time time = challenge.toTime();
+
+                event.getPlayer().sendMessage(MessagesFile.getInstance().getMessage("game.end")
+                        .replace("{name}", challenge.getParkour().getName())
+                        .replace("{time}", String.valueOf(time.time())));
+
+                SQLDatabase.getInstance().save(time);
+            }
+
+            return;
+        }
 
         Location nextCheckpoint = challenge.getParkour().getCheckpoints().get(challenge.getCurrentCheckpoint()).location();
-        if (nextCheckpoint == null) return;
-
-        if (MovementHandler.checkDistance(event.getPlayer().getLocation(),nextCheckpoint)) {
+        if (nextCheckpoint != null && challenge.getCurrentCheckpoint() != challenge.getParkour().getCheckpoints().size() && MovementHandler.checkDistance(event.getTo(), nextCheckpoint)) {
             challenge.setCurrentCheckpoint(challenge.getCurrentCheckpoint() + 1);
             event.getPlayer().sendMessage(MessagesFile.getInstance().getMessage("game.checkpoint")
                     .replace("{current}", String.valueOf(challenge.getCurrentCheckpoint()))
                     .replace("{total}", String.valueOf(challenge.getParkour().getCheckpoints().size())));
-        }
-
-        if (challenge.getCurrentCheckpoint() == challenge.getParkour().getCheckpoints().size()) {
-            challenge = ChallengeHandler.getInstance().end(event.getPlayer());
-
-            Time time = challenge.toTime();
-
-            event.getPlayer().sendMessage(MessagesFile.getInstance().getMessage("game.end")
-                    .replace("{name}", challenge.getParkour().getName())
-                    .replace("{time}", String.valueOf(time.time())));
-
-            SQLDatabase.getInstance().save(time);
         }
     }
 

@@ -10,6 +10,7 @@ public class Parkour {
     private final String name;
     private final Location start;
     private final Hologram hologram;
+    private Hologram endHologram;
     private List<Checkpoint> checkpoints;
     private Location end;
 
@@ -53,11 +54,16 @@ public class Parkour {
 
     public void setEnd(Location end) {
         this.end = end;
+
+        this.endHologram = new Hologram(end,  MessagesFile.getInstance().getMessage("hologram.end")
+                .replace("{name}", name));
+        endHologram.spawn();
     }
 
     public List<Hologram> getHolograms() {
         List<Hologram> holograms = new ArrayList<>();
         holograms.add(hologram);
+        if (endHologram != null) holograms.add(endHologram);
         if (checkpoints != null) holograms.addAll(checkpoints.stream().map(Checkpoint::hologram).toList());
         return holograms;
     }

@@ -26,6 +26,7 @@ public class ParkourCommand implements TabExecutor {
         commands.put("teleport", new TeleportCommand());
         commands.put("top",new TopCommand());
         commands.put("info",new InfoCommand());
+        commands.put("stats",new StatsCommand());
     }
 
     @Override

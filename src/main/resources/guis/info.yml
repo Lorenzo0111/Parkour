@@ -1,0 +1,37 @@
+title: "&6&l»&e&l» &r&f{name} &e&l«&6&l«"
+
+structure:
+  - "# # # S # E # # #"
+  - "x x x x x x x x x"
+  - "# # # < # > # # #"
+
+filler:
+  name: "&r"
+  material: "GRAY_STAINED_GLASS_PANE"
+
+back:
+  name: "&e&l«&6&l« &r&fPrevious Page"
+  material: "STONE_BUTTON"
+
+next:
+  name: "&fNext Page &6&l»&e&l»"
+  material: "STONE_BUTTON"
+
+start:
+  material: "LIGHT_WEIGHTED_PRESSURE_PLATE"
+  name: "&6&l»&e&l» &r&f{name} &7(&eStart&7) &e&l«&6&l«"
+  lore:
+    - "&6&l» &r&eLocation: &f{x} {y} {z}"
+
+end:
+  material: "LIGHT_WEIGHTED_PRESSURE_PLATE"
+  name: "&6&l»&e&l» &r&f{name} &7(&eEnd&7) &e&l«&6&l«"
+  lore:
+    - "&6&l» &r&eLocation: &f{x} {y} {z}"
+
+checkpoint:
+  material: "LIGHT_WEIGHTED_PRESSURE_PLATE"
+  name: "&6&l» &r&eCheckpoint {name}"
+  lore:
+    - "&6&l» &r&eLocation: &f{x} {y} {z}"
+    - "&6&l» &r&ePosition: &f{name}"

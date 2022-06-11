@@ -16,7 +16,7 @@ public class TeleportCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,args);
+        Parkour parkour = fromArgs(sender,"teleport {name} [checkpoint]",args);
         if (parkour == null) {
             return;
         }

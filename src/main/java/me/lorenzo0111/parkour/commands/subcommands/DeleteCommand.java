@@ -16,7 +16,7 @@ public class DeleteCommand extends SubCommand {
 
     @Override
     public void perform(Player sender, String[] args) {
-        Parkour parkour = fromArgs(sender,args);
+        Parkour parkour = fromArgs(sender,"delete {name} [checkpoint]",args);
         if (parkour == null) {
             return;
         }
