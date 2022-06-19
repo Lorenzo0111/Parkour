@@ -28,7 +28,6 @@ import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.Checkpoint;
 import me.lorenzo0111.parkour.data.flat.Parkour;
-import me.lorenzo0111.parkour.data.flat.ParkourFile;
 import me.lorenzo0111.parkour.data.flat.gui.GuiFile;
 import me.lorenzo0111.parkour.data.flat.gui.GuiItem;
 import org.bukkit.entity.Player;

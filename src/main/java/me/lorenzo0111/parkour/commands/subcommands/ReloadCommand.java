@@ -26,7 +26,6 @@ package me.lorenzo0111.parkour.commands.subcommands;
 
 import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
-import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 

@@ -38,7 +38,7 @@ public class Hologram {
         this.location = location.clone().add(0, plugin.getConfig().getDouble("hologram.height"), 0);
         this.text = text;
 
-        HologramManager.getInstance().register(this);
+        plugin.getHolograms().register(this);
     }
 
     public void spawn() {

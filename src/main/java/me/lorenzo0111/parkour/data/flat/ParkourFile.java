@@ -26,7 +26,6 @@ package me.lorenzo0111.parkour.data.flat;
 
 import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.hologram.Hologram;
-import me.lorenzo0111.parkour.hologram.HologramManager;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -112,7 +111,7 @@ public class ParkourFile extends AbstractFile {
         Parkour p = this.parkours.remove(parkour);
 
         for (Hologram hologram : p.getHolograms()) {
-            HologramManager.getInstance().remove(hologram);
+            plugin.getHolograms().remove(hologram);
         }
     }
 

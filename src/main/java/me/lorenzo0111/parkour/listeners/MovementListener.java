@@ -26,7 +26,6 @@ package me.lorenzo0111.parkour.listeners;
 
 import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.data.cache.Challenge;
-import me.lorenzo0111.parkour.data.cache.ChallengeHandler;
 import me.lorenzo0111.parkour.data.flat.Parkour;
 import me.lorenzo0111.parkour.data.sql.Time;
 import me.lorenzo0111.parkour.utils.MovementHandler;

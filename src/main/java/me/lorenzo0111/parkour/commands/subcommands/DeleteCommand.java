@@ -27,7 +27,6 @@ package me.lorenzo0111.parkour.commands.subcommands;
 import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.Parkour;
-import me.lorenzo0111.parkour.hologram.HologramManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +54,7 @@ public class DeleteCommand extends SubCommand {
                     return;
                 }
 
-                HologramManager.getInstance().remove(parkour.getCheckpoints().remove(position - 1).hologram());
+                plugin.getHolograms().remove(parkour.getCheckpoints().remove(position - 1).hologram());
 
                 for (int i = 0; i < parkour.getCheckpoints().size(); i++) {
                     parkour.getCheckpoints().get(i).hologram().setText(plugin.getMessages().getMessage("hologram.checkpoint")

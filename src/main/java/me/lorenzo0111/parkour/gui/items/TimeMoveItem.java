@@ -30,8 +30,6 @@ import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.impl.controlitem.ControlItem;
 import de.studiocode.invui.window.Window;
 import me.lorenzo0111.parkour.ParkourPlugin;
-import me.lorenzo0111.parkour.data.flat.MessagesFile;
-import me.lorenzo0111.parkour.data.sql.SQLDatabase;
 import me.lorenzo0111.parkour.data.sql.Time;
 import me.lorenzo0111.parkour.gui.TopGUI;
 import org.bukkit.Bukkit;

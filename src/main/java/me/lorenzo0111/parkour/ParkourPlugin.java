@@ -114,7 +114,7 @@ public final class ParkourPlugin extends JavaPlugin {
 
         this.getLogger().info("Saved parkours!");
 
-        HologramManager.getInstance().reload();
+        holograms.reload();
     }
 
     public void reload() {
