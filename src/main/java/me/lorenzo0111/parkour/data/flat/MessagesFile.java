@@ -32,13 +32,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MessagesFile extends AbstractFile {
-    private static MessagesFile instance;
     private Map<String, Object> messages;
 
     public MessagesFile(File dataFolder) {
         super(new File(dataFolder, "messages.yml"), true);
-
-        instance = this;
     }
 
     @Override
@@ -58,9 +55,5 @@ public class MessagesFile extends AbstractFile {
                 .stream()
                 .map(s -> ChatColor.translateAlternateColorCodes('&', s))
                 .toList());
-    }
-
-    public static MessagesFile getInstance() {
-        return instance;
     }
 }

@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 
 public class GuiFile extends AbstractFile {
     private static final Map<String, GuiFile> FILES = new HashMap<>();
-    private static final File GUIS = new File(ParkourPlugin.getInstance().getDataFolder(), "guis");
+    private static final File GUIS = new File(ParkourPlugin.getPlugin(ParkourPlugin.class).getDataFolder(), "guis");
     protected final Map<String, String> placeholders = new HashMap<>();
     protected final Map<Character, GuiItem> ingredients = new HashMap<>();
     private boolean created = false;

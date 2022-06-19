@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands.subcommands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.Checkpoint;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
@@ -38,6 +39,10 @@ import java.util.List;
 
 public class CheckpointCommand extends SubCommand {
 
+    public CheckpointCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
         Parkour parkour = fromArgs(sender, "checkpoint {name}", args);
@@ -45,12 +50,12 @@ public class CheckpointCommand extends SubCommand {
             return;
         }
 
-        parkour.getCheckpoints().add(new Checkpoint(sender.getLocation(), new Hologram(sender.getLocation(), MessagesFile.getInstance().getMessage("hologram.checkpoint")
+        parkour.getCheckpoints().add(new Checkpoint(sender.getLocation(), new Hologram(plugin,sender.getLocation(), plugin.getMessages().getMessage("hologram.checkpoint")
                 .replace("{name}", parkour.getName())
                 .replace("{count}", String.valueOf(parkour.getCheckpoints().size() + 1)))));
-        ParkourFile.getInstance().add(parkour);
+        plugin.getParkours().add(parkour);
 
-        sender.sendMessage(MessagesFile.getInstance().getMessage("commands.checkpoint").replace("{name}", parkour.getName()));
+        sender.sendMessage(plugin.getMessages().getMessage("commands.checkpoint").replace("{name}", parkour.getName()));
     }
 
     @Override
@@ -60,6 +65,6 @@ public class CheckpointCommand extends SubCommand {
 
     @Override
     public List<String> complete() {
-        return new ArrayList<>(ParkourFile.getInstance().getParkours().keySet());
+        return new ArrayList<>(plugin.getParkours().getParkours().keySet());
     }
 }

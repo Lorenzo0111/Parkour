@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands.subcommands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
@@ -36,6 +37,10 @@ import java.util.List;
 
 public class EndCommand extends SubCommand {
 
+    public EndCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
         Parkour parkour = fromArgs(sender, "end {name} [checkpoint]", args);
@@ -44,9 +49,9 @@ public class EndCommand extends SubCommand {
         }
 
         parkour.setEnd(sender.getLocation());
-        ParkourFile.getInstance().add(parkour);
+        plugin.getParkours().add(parkour);
 
-        sender.sendMessage(MessagesFile.getInstance().getMessage("commands.end").replace("{name}", parkour.getName()));
+        sender.sendMessage(plugin.getMessages().getMessage("commands.end").replace("{name}", parkour.getName()));
     }
 
     @Override
@@ -56,6 +61,6 @@ public class EndCommand extends SubCommand {
 
     @Override
     public List<String> complete() {
-        return new ArrayList<>(ParkourFile.getInstance().getParkours().keySet());
+        return new ArrayList<>(plugin.getParkours().getParkours().keySet());
     }
 }

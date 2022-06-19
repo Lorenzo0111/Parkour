@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands.subcommands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
@@ -36,6 +37,10 @@ import java.util.List;
 
 public class TeleportCommand extends SubCommand {
 
+    public TeleportCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
         Parkour parkour = fromArgs(sender, "teleport {name} [checkpoint]", args);
@@ -47,21 +52,21 @@ public class TeleportCommand extends SubCommand {
             try {
                 int position = Integer.parseInt(args[1]);
                 if (position < 1 || position > parkour.getCheckpoints().size()) {
-                    sender.sendMessage(MessagesFile.getInstance().getMessage("errors.not-checkpoint"));
+                    sender.sendMessage(plugin.getMessages().getMessage("errors.not-checkpoint"));
                     return;
                 }
 
                 sender.teleport(parkour.getCheckpoints().get(position - 1).location());
-                sender.sendMessage(MessagesFile.getInstance().getMessage("commands.teleport-checkpoint").replace("{name}", parkour.getName()).replace("{position}", String.valueOf(position)));
+                sender.sendMessage(plugin.getMessages().getMessage("commands.teleport-checkpoint").replace("{name}", parkour.getName()).replace("{position}", String.valueOf(position)));
             } catch (NumberFormatException e) {
-                sender.sendMessage(MessagesFile.getInstance().getMessage("errors.not-checkpoint"));
+                sender.sendMessage(plugin.getMessages().getMessage("errors.not-checkpoint"));
                 return;
             }
             return;
         }
 
         sender.teleport(parkour.getStart());
-        sender.sendMessage(MessagesFile.getInstance().getMessage("commands.teleport").replace("{name}", parkour.getName()));
+        sender.sendMessage(plugin.getMessages().getMessage("commands.teleport").replace("{name}", parkour.getName()));
     }
 
     @Override
@@ -71,6 +76,6 @@ public class TeleportCommand extends SubCommand {
 
     @Override
     public List<String> complete() {
-        return new ArrayList<>(ParkourFile.getInstance().getParkours().keySet());
+        return new ArrayList<>(plugin.getParkours().getParkours().keySet());
     }
 }

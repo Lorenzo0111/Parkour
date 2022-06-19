@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.subcommands.*;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import org.bukkit.command.Command;
@@ -39,40 +40,43 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkourCommand implements TabExecutor {
+    private final ParkourPlugin plugin;
     private final Map<String, SubCommand> commands = new HashMap<>();
 
-    public ParkourCommand() {
-        commands.put("reload", new ReloadCommand());
-        commands.put("create", new CreateCommand());
-        commands.put("checkpoint", new CheckpointCommand());
-        commands.put("end", new EndCommand());
-        commands.put("delete", new DeleteCommand());
-        commands.put("teleport", new TeleportCommand());
-        commands.put("top", new TopCommand());
-        commands.put("info", new InfoCommand());
-        commands.put("stats", new StatsCommand());
+    public ParkourCommand(ParkourPlugin plugin) {
+        this.plugin = plugin;
+        
+        commands.put("reload", new ReloadCommand(plugin));
+        commands.put("create", new CreateCommand(plugin));
+        commands.put("checkpoint", new CheckpointCommand(plugin));
+        commands.put("end", new EndCommand(plugin));
+        commands.put("delete", new DeleteCommand(plugin));
+        commands.put("teleport", new TeleportCommand(plugin));
+        commands.put("top", new TopCommand(plugin));
+        commands.put("info", new InfoCommand(plugin));
+        commands.put("stats", new StatsCommand(plugin));
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.player"));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.player"));
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour <create|checkpoint|end|delete|top|info|stats>"));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.usage").replace("{usage}", "/parkour <create|checkpoint|end|delete|top|info|stats>"));
             return true;
         }
 
         if (!commands.containsKey(args[0])) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour <create|checkpoint|end|delete|top|info|stats>"));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.usage").replace("{usage}", "/parkour <create|checkpoint|end|delete|top|info|stats>"));
             return true;
         }
 
         SubCommand subCommand = commands.get(args[0]);
         if (subCommand.permission() != null && !sender.hasPermission(subCommand.permission())) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.no-permission"));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.no-permission"));
             return true;
         }
 

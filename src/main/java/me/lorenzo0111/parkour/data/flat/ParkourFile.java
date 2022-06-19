@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.data.flat;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.hologram.Hologram;
 import me.lorenzo0111.parkour.hologram.HologramManager;
 import org.bukkit.Location;
@@ -36,13 +37,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkourFile extends AbstractFile {
-    private static ParkourFile instance;
+    private final ParkourPlugin plugin;
     private Map<String, Parkour> parkours;
 
-    public ParkourFile(File dataFolder) throws IOException {
+
+
+    public ParkourFile(ParkourPlugin plugin, File dataFolder) throws IOException {
         super(new File(dataFolder, "parkour.yml"));
 
-        instance = this;
+        this.plugin = plugin;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class ParkourFile extends AbstractFile {
             ConfigurationSection section = this.getConfig().getConfigurationSection(parkour);
             if (section == null) continue;
 
-            Parkour p = new Parkour(parkour, section.getLocation("start"));
+            Parkour p = new Parkour(plugin, parkour, section.getLocation("start"));
 
             if (section.contains("checkpoints")) {
                 p.setCheckpoints((List<Location>) section.getList("checkpoints"));
@@ -99,10 +102,6 @@ public class ParkourFile extends AbstractFile {
         }
 
         super.save();
-    }
-
-    public static ParkourFile getInstance() {
-        return instance;
     }
 
     public void add(Parkour parkour) {

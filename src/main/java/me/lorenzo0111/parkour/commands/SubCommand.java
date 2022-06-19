@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
 import me.lorenzo0111.parkour.data.flat.ParkourFile;
@@ -33,6 +34,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public abstract class SubCommand {
+    protected final ParkourPlugin plugin;
+
+    protected SubCommand(ParkourPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     public abstract void perform(Player sender, String[] args);
 
@@ -44,13 +50,13 @@ public abstract class SubCommand {
 
     public Parkour fromArgs(Player sender, String usage, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour " + usage));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.usage").replace("{usage}", "/parkour " + usage));
             return null;
         }
 
-        Parkour parkour = ParkourFile.getInstance().getParkour(args[0]);
+        Parkour parkour = plugin.getParkours().getParkour(args[0]);
         if (parkour == null) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.not-exists").replace("{name}", args[0]));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.not-exists").replace("{name}", args[0]));
             return null;
         }
 

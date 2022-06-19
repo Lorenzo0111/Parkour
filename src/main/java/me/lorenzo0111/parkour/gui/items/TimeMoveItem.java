@@ -49,12 +49,14 @@ public class TimeMoveItem extends ControlItem<SimplePagedItemsGUI> {
     private final boolean forward;
     private final TopGUI gui;
     private final ItemProvider provider;
+    private final ParkourPlugin plugin;
     private List<TimeItem> items = null;
 
-    public TimeMoveItem(boolean forward, @NotNull TopGUI gui) {
+    public TimeMoveItem(ParkourPlugin plugin, boolean forward, @NotNull TopGUI gui) {
         this.forward = forward;
         this.provider = gui.getItem(forward ? "next" : "back");
         this.gui = gui;
+        this.plugin = plugin;
     }
 
     @Override
@@ -83,11 +85,11 @@ public class TimeMoveItem extends ControlItem<SimplePagedItemsGUI> {
 
         items.forEach(TimeItem::reset);
 
-        SQLDatabase.getInstance().getTop(gui.getParkour().getName(), 9, gui.getCurrent()).whenComplete((times, error) -> {
+        plugin.getDatabase().getTop(gui.getParkour().getName(), 9, gui.getCurrent()).whenComplete((times, error) -> {
             try {
                 if (error != null) {
                     error.printStackTrace();
-                    player.sendMessage(MessagesFile.getInstance().getMessage("errors.database"));
+                    player.sendMessage(plugin.getMessages().getMessage("errors.database"));
                     return;
                 }
 
@@ -100,9 +102,9 @@ public class TimeMoveItem extends ControlItem<SimplePagedItemsGUI> {
                     items.get(i).setTime(time).setRank(position);
                 }
 
-                Bukkit.getScheduler().runTask(ParkourPlugin.getInstance(), () -> items.forEach(TimeItem::notifyWindows));
+                Bukkit.getScheduler().runTask(plugin, () -> items.forEach(TimeItem::notifyWindows));
             } catch (Error | Exception e) {
-                ParkourPlugin.getInstance().getLogger().log(Level.SEVERE, "An error has occurred", e);
+                plugin.getLogger().log(Level.SEVERE, "An error has occurred", e);
             }
         });
     }

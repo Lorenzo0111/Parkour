@@ -66,8 +66,8 @@ public class TopGUI extends GuiFile {
                 .setStructure(structure.toArray(new String[0]))
                 .addIngredient('#', getItem("filler"))
                 .addIngredient('x', Markers.ITEM_LIST_SLOT_HORIZONTAL)
-                .addIngredient('<', new TimeMoveItem(false, this))
-                .addIngredient('>', new TimeMoveItem(true, this))
+                .addIngredient('<', new TimeMoveItem(parkour.getPlugin(),false, this))
+                .addIngredient('>', new TimeMoveItem(parkour.getPlugin(),true, this))
                 .setItems(timeItems);
 
         for (char c : ingredients.keySet()) {

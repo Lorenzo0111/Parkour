@@ -32,10 +32,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class ReloadCommand extends SubCommand {
 
+    public ReloadCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
-        ParkourPlugin.getInstance().reload();
-        sender.sendMessage(MessagesFile.getInstance().getMessage("commands.reload"));
+        plugin.reload();
+        sender.sendMessage(plugin.getMessages().getMessage("commands.reload"));
     }
 
     @Override

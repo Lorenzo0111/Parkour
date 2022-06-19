@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.data.flat;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.hologram.Hologram;
 import org.bukkit.Location;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parkour {
+    private final ParkourPlugin plugin;
     private final String name;
     private final Location start;
     private final Hologram hologram;
@@ -38,11 +40,12 @@ public class Parkour {
     private List<Checkpoint> checkpoints;
     private Location end;
 
-    public Parkour(String name, Location start) {
+    public Parkour(ParkourPlugin plugin, String name, Location start) {
         this.name = name;
         this.start = start;
-        this.hologram = new Hologram(start, MessagesFile.getInstance().getMessage("hologram.start")
+        this.hologram = new Hologram(plugin,start, plugin.getMessages().getMessage("hologram.start")
                 .replace("{name}", name));
+        this.plugin = plugin;
         hologram.spawn();
     }
 
@@ -64,7 +67,7 @@ public class Parkour {
         List<Checkpoint> list = new ArrayList<>();
 
         for (int i = 0; i < checkpoints.size(); i++) {
-            list.add(new Checkpoint(checkpoints.get(i), new Hologram(checkpoints.get(i), MessagesFile.getInstance().getMessage("hologram.checkpoint")
+            list.add(new Checkpoint(checkpoints.get(i), new Hologram(plugin,checkpoints.get(i), plugin.getMessages().getMessage("hologram.checkpoint")
                     .replace("{name}", name)
                     .replace("{count}", String.valueOf(i + 1)))));
         }
@@ -79,7 +82,7 @@ public class Parkour {
     public void setEnd(Location end) {
         this.end = end;
 
-        this.endHologram = new Hologram(end, MessagesFile.getInstance().getMessage("hologram.end")
+        this.endHologram = new Hologram(plugin,end, plugin.getMessages().getMessage("hologram.end")
                 .replace("{name}", name));
         endHologram.spawn();
     }
@@ -90,5 +93,9 @@ public class Parkour {
         if (endHologram != null) holograms.add(endHologram);
         if (checkpoints != null) holograms.addAll(checkpoints.stream().map(Checkpoint::hologram).toList());
         return holograms;
+    }
+
+    public ParkourPlugin getPlugin() {
+        return plugin;
     }
 }

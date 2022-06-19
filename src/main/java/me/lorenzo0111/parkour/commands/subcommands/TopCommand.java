@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands.subcommands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.Parkour;
 import me.lorenzo0111.parkour.data.flat.ParkourFile;
@@ -36,6 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopCommand extends SubCommand {
+
+    public TopCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
 
     @Override
     public void perform(Player sender, String[] args) {
@@ -58,7 +63,7 @@ public class TopCommand extends SubCommand {
 
     @Override
     public List<String> complete() {
-        return new ArrayList<>(ParkourFile.getInstance().getParkours().keySet());
+        return new ArrayList<>(plugin.getParkours().getParkours().keySet());
     }
 
 

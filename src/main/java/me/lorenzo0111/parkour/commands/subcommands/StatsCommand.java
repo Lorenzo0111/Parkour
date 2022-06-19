@@ -41,6 +41,10 @@ import java.util.List;
 
 public class StatsCommand extends SubCommand {
 
+    public StatsCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
         Player target = sender;
@@ -49,16 +53,16 @@ public class StatsCommand extends SubCommand {
             target = Bukkit.getPlayer(args[0]);
 
             if (target == null) {
-                sender.sendMessage(MessagesFile.getInstance().getMessage("errors.player-not-found"));
+                sender.sendMessage(plugin.getMessages().getMessage("errors.player-not-found"));
                 return;
             }
         }
 
         final Player finalTarget = target;
 
-        SQLDatabase.getInstance().get(target).whenComplete((stats, ex) -> {
+        plugin.getDatabase().get(target).whenComplete((stats, ex) -> {
             if (ex != null) {
-                sender.sendMessage(MessagesFile.getInstance().getMessage("errors.database"));
+                sender.sendMessage(plugin.getMessages().getMessage("errors.database"));
                 return;
             }
 
@@ -80,9 +84,9 @@ public class StatsCommand extends SubCommand {
 
                 SimpleWindow window = file.setItems(items).toGUI(sender);
 
-                Bukkit.getScheduler().runTask(ParkourPlugin.getInstance(), window::show);
+                Bukkit.getScheduler().runTask(plugin, window::show);
             } catch (Exception e) {
-                sender.sendMessage(MessagesFile.getInstance().getMessage("errors.database"));
+                sender.sendMessage(plugin.getMessages().getMessage("errors.database"));
                 e.printStackTrace();
             }
         });

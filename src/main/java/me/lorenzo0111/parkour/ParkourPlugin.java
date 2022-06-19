@@ -26,6 +26,7 @@ package me.lorenzo0111.parkour;
 
 import com.glyart.mystral.database.Credentials;
 import me.lorenzo0111.parkour.commands.ParkourCommand;
+import me.lorenzo0111.parkour.data.cache.ChallengeHandler;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.ParkourFile;
 import me.lorenzo0111.parkour.data.sql.SQLDatabase;
@@ -43,13 +44,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ParkourPlugin extends JavaPlugin {
-    private static ParkourPlugin instance;
     private final List<Reloadable> reloadables = new ArrayList<>();
+    private SQLDatabase database;
+    private ParkourFile parkours;
+    private MessagesFile messages;
+    private HologramManager holograms;
+    private ChallengeHandler challenges;
 
     @Override
     public void onEnable() {
-        instance = this;
-
         Instant start = Instant.now();
         this.saveDefaultConfig();
 
@@ -58,32 +61,30 @@ public final class ParkourPlugin extends JavaPlugin {
         this.getLogger().info("----------------------------------------------------");
         this.getLogger().info("Connecting to the database...");
 
-        SQLDatabase.getInstance().connect(this, buildCredentials());
-
-        reloadables.add(SQLDatabase.getInstance());
+        reloadables.add(database = new SQLDatabase().connect(this, buildCredentials()));
 
         this.getLogger().info("Database connected!");
         this.getLogger().info("----------------------------------------------------");
         this.getLogger().info("Loading messages...");
 
-        reloadables.add(new MessagesFile(this.getDataFolder()));
+        reloadables.add(messages = new MessagesFile(this.getDataFolder()));
 
         this.getLogger().info("Loaded messages!");
         this.getLogger().info("----------------------------------------------------");
 
         this.getLogger().info("Loading parkours...");
 
-        reloadables.add(HologramManager.getInstance());
+        reloadables.add(holograms = new HologramManager());
 
         try {
-            reloadables.add(new ParkourFile(this.getDataFolder()));
+            reloadables.add(parkours = new ParkourFile(this,this.getDataFolder()));
         } catch (IOException e) {
             this.getLogger().severe("An error occurred while loading parkours!");
             e.printStackTrace();
             this.setEnabled(false);
             return;
         }
-        this.getLogger().info("Loaded " + ParkourFile.getInstance().getParkours().size() + " parkours!");
+        this.getLogger().info("Loaded " + parkours.getParkours().size() + " parkours!");
         this.getLogger().info("----------------------------------------------------");
 
         PluginCommand command = this.getCommand("parkour");
@@ -93,9 +94,11 @@ public final class ParkourPlugin extends JavaPlugin {
             return;
         }
 
-        command.setExecutor(new ParkourCommand());
+        command.setExecutor(new ParkourCommand(this));
 
-        Bukkit.getPluginManager().registerEvents(new MovementListener(), this);
+        challenges = new ChallengeHandler(this);
+
+        Bukkit.getPluginManager().registerEvents(new MovementListener(this), this);
 
         Instant end = Instant.now();
         this.getLogger().info("Parkour v" + this.getDescription().getVersion() + " enabled in " + Duration.between(start, end).getSeconds() + " seconds.");
@@ -105,8 +108,8 @@ public final class ParkourPlugin extends JavaPlugin {
     public void onDisable() {
         this.getLogger().info("Saving parkours...");
 
-        if (ParkourFile.getInstance() != null) {
-            ParkourFile.getInstance().save();
+        if (parkours != null) {
+            parkours.save();
         }
 
         this.getLogger().info("Saved parkours!");
@@ -131,7 +134,23 @@ public final class ParkourPlugin extends JavaPlugin {
                 .build();
     }
 
-    public static ParkourPlugin getInstance() {
-        return instance;
+    public MessagesFile getMessages() {
+        return messages;
+    }
+
+    public ParkourFile getParkours() {
+        return parkours;
+    }
+
+    public HologramManager getHolograms() {
+        return holograms;
+    }
+
+    public SQLDatabase getDatabase() {
+        return database;
+    }
+
+    public ChallengeHandler getChallenges() {
+        return challenges;
     }
 }

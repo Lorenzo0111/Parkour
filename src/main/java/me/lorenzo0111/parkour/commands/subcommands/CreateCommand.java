@@ -24,6 +24,7 @@
 
 package me.lorenzo0111.parkour.commands.subcommands;
 
+import me.lorenzo0111.parkour.ParkourPlugin;
 import me.lorenzo0111.parkour.commands.SubCommand;
 import me.lorenzo0111.parkour.data.flat.MessagesFile;
 import me.lorenzo0111.parkour.data.flat.Parkour;
@@ -34,25 +35,29 @@ import org.jetbrains.annotations.Nullable;
 
 public class CreateCommand extends SubCommand {
 
+    public CreateCommand(ParkourPlugin plugin) {
+        super(plugin);
+    }
+
     @Override
     public void perform(Player sender, String[] args) {
         if (args.length != 1) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.usage").replace("{usage}", "/parkour create {name}"));
+            sender.sendMessage(plugin.getMessages().getMessage("errors.usage").replace("{usage}", "/parkour create {name}"));
             return;
         }
 
         String name = args[0];
         Location start = sender.getLocation();
 
-        if (ParkourFile.getInstance().getParkour(name) != null) {
-            sender.sendMessage(MessagesFile.getInstance().getMessage("errors.exists").replace("{name}", name));
+        if (plugin.getParkours().getParkour(name) != null) {
+            sender.sendMessage(plugin.getMessages().getMessage("errors.exists").replace("{name}", name));
             return;
         }
 
-        Parkour parkour = new Parkour(name, start);
-        ParkourFile.getInstance().add(parkour);
+        Parkour parkour = new Parkour(plugin,name, start);
+        plugin.getParkours().add(parkour);
 
-        sender.sendMessage(MessagesFile.getInstance().getMessage("commands.create").replace("{name}", name));
+        sender.sendMessage(plugin.getMessages().getMessage("commands.create").replace("{name}", name));
     }
 
     @Override

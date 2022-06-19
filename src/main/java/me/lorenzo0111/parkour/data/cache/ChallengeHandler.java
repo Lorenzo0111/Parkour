@@ -35,9 +35,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ChallengeHandler {
-    private static ChallengeHandler instance;
+    private final ParkourPlugin plugin;
     private final Map<Player, Challenge> challenges = new HashMap<>();
     private final List<Player> delay = new ArrayList<>();
+
+    public ChallengeHandler(ParkourPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     public void start(Player player, Challenge challenge) {
         challenges.put(player, challenge);
@@ -61,15 +65,10 @@ public class ChallengeHandler {
 
     public void delay(Player player) {
         delay.add(player);
-        Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> delay.remove(player), 20L);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> delay.remove(player), 20L);
     }
 
     public boolean isDelayed(Player player) {
         return delay.contains(player);
-    }
-
-    public static ChallengeHandler getInstance() {
-        if (instance == null) instance = new ChallengeHandler();
-        return instance;
     }
 }

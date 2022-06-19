@@ -38,16 +38,17 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class SQLDatabase implements Reloadable {
-    private static final SQLDatabase instance = new SQLDatabase();
     private AsyncDatabase database;
 
-    public void connect(ParkourPlugin plugin, Credentials credentials) {
+    public SQLDatabase connect(ParkourPlugin plugin, Credentials credentials) {
         this.database = Mystral.newAsyncDatabase(credentials, (command) -> Bukkit.getScheduler().runTaskAsynchronously(plugin, command));
         this.database.update("CREATE TABLE IF NOT EXISTS times ("
                 + "id INTEGER PRIMARY KEY AUTO_INCREMENT, "
                 + "parkour TEXT NOT NULL, "
                 + "uuid CHAR(36) CHARACTER SET ascii NOT NULL, "
                 + "time INTEGER NOT NULL);", false);
+
+        return this;
     }
 
     public void save(Time object) {
@@ -55,13 +56,11 @@ public class SQLDatabase implements Reloadable {
 
         this.get(object.player(), object.parkour()).whenComplete((previous, error) -> {
             if (previous == null || previous.time() > object.time()) {
-                this.remove(previous).whenComplete((unused, ex) -> {
-                    this.database.update("INSERT INTO `times`(`parkour`,`uuid`,`time`) VALUES (?,?,?);", (a) -> {
-                        a.setString(1, object.parkour());
-                        a.setString(2, object.player().toString());
-                        a.setLong(3, object.time());
-                    }, false);
-                });
+                this.remove(previous).whenComplete((unused, ex) -> this.database.update("INSERT INTO `times`(`parkour`,`uuid`,`time`) VALUES (?,?,?);", (a) -> {
+                    a.setString(1, object.parkour());
+                    a.setString(2, object.player().toString());
+                    a.setLong(3, object.time());
+                }, false));
             }
         });
     }
@@ -125,10 +124,6 @@ public class SQLDatabase implements Reloadable {
         if (this.database == null) {
             throw new IllegalStateException("Database is not connected!");
         }
-    }
-
-    public static SQLDatabase getInstance() {
-        return instance;
     }
 
     @Override
